@@ -1,0 +1,8 @@
+{
+    "css" : {"address" : "/Users/yashwinder.kumar/Documents/velocitytemp/velquiz/src/main/resources/templates/style.css"},
+    "title" : "Quiz app",
+    "queshead" : "loading question ....",
+    "options" : ["option1", "option2", "option3","option4"],
+    "language" : "macjava",
+    "color" : "background-color:#8e44ad"
+}
