@@ -1,0 +1,55 @@
+package com.pehtml2pdf.demo;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.devtools.v107.page.Page;
+import org.openqa.selenium.devtools.v107.css.CSS;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+
+public class DemoForPeHtmlToPdfApplication {
+
+	public static void main(String[] args) throws IOException {
+		String chromeDriverPath = "/Users/yashwinder.kumar/Documents/temp/selenium_chromedriver/chromedriver" ;
+
+		ChromeOptions options = new ChromeOptions();
+
+		options.addArguments("--headless", "--window-size=1920,1200","--ignore-certificate-errors");
+		ChromeDriver chromeDriver = new ChromeDriver(options);
+		chromeDriver.getDevTools();
+
+		chromeDriver.get("file:///Users/yashwinder.kumar/Documents/temp/pe.html");
+
+		var params = new HashMap<String, Object>();
+		params.put("paperWidth", 210 / 25.4 );
+		//params.put("paperHeight", 297 / 25.4 + 0.05 );
+		params.put("paperHeight", 297 / 25.4);
+		params.put("scale", 0.9);
+		//params.put("pageRanges", "1-2" );
+		params.put("marginTop",2);
+		params.put("marginBottom",4);
+//		params.put("marginLeft",0);
+//		params.put("marginRight",0);
+		params.put("displayHeaderFooter", true);
+
+
+		params.put("footerTemplate", fstring);
+		String command = "Page.printToPDF";
+		Map<String, Object> output = chromeDriver.executeCdpCommand(command, params);
+
+		String outputPath = "/Users/yashwinder.kumar/Documents/temp/hp11.pdf";
+		FileOutputStream fileOutputStream = new FileOutputStream(outputPath.toString());
+		byte[] byteArray = Base64.getDecoder().decode((String) output.get("data"));
+		fileOutputStream.write(byteArray);
+		fileOutputStream.close();
+		chromeDriver.close();
+
+	}
+}
+
